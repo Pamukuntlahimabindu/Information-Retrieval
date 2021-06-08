@@ -1,5 +1,6 @@
 # Information-Retrieval
 University at Buffalo - Course Project
+Analysis of Government and Public Attitude Towards COVID Governance
 
 Built an end-to-end Information Retrieval (IR) solution including content ingestion, search engine, topic categorization and
 analytics.
