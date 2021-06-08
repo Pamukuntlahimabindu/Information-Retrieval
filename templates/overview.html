@@ -1,0 +1,612 @@
+<!-- Styles -->
+<style>
+  #chartdiv {
+    width: 60%;
+    height: 500px;
+  }
+  
+  </style>
+  
+  <style>
+  #chartdiv1 {
+    width: 60%;
+    height: 500px;
+  }
+  
+  </style>
+  <style>
+    #chartdiv2 {
+      width: 60%;
+      height: 500px;
+    }
+    
+    </style>
+    <style>
+      #chartdiv3 {
+        width: 60%;
+        height: 500px;
+      }
+      
+      </style>
+  <style>
+    #chartdiv4 {
+      width: 60%;
+      height: 1500px;
+    }
+    
+    </style>
+  <style>
+    #chartdiv5 {
+      width: 60%;
+      height: 500px;
+    }
+    
+    </style>
+    <style>
+      #chartdiv6 {
+        width: 60%;
+        height: 500px;
+      }
+      
+      </style>
+      <style>
+        #chartdiv7 {
+          width: 60%;
+          height: 500px;
+        }
+        
+        </style>
+        <style>
+          #chartdiv8 {
+            width: 60%;
+            height: 500px;
+          }
+          
+          </style>
+          <style>
+            #chartdiv9 {
+              width: 60%;
+              height: 500px;
+            }
+            
+            .centerstyle{
+    align-items:center;
+    margin-left:auto;
+    margin-right:auto;
+    }
+            
+            </style>
+  <!-- Resources -->
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+      <!-- <link href = "//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+      rel="stylesheet" id="bootstrap-css"> -->
+      <script src = "//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js">
+      </script>
+      <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+      <script src=https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js></script>
+      <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+      <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+  <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+  <script src="https://cdn.amcharts.com/lib/4/themes/material.js"></script>
+  <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+  
+  <!-- Chart code -->
+  <script> 
+  am4core.ready(function() {
+      // Create chart instance
+      var chart = am4core.create("chartdiv", am4charts.XYChart3D);
+      //var chart1 = am4core.create("chartdiv1", am4charts.XYChart3D);
+      var chart1 = am4core.create("chartdiv1", am4charts.PieChart);
+      var chart2 = am4core.create("chartdiv2", am4charts.PieChart)
+      var chart3 = am4core.create("chartdiv3", am4charts.PieChart3D);
+      var chart4 = am4core.create("chartdiv4", am4charts.XYChart3D);
+      var chart5 = am4core.create("chartdiv5", am4charts.XYChart3D);
+      var chart6 = am4core.create("chartdiv6", am4charts.XYChart3D);
+      var chart7 = am4core.create("chartdiv7", am4charts.XYChart);
+      var chart8 = am4core.create("chartdiv8", am4charts.XYChart);
+      var chart9 = am4core.create("chartdiv9", am4charts.XYChart);
+      //var chart = am4core.create("chartdiv", am4charts.XYChart3D);
+      // var chart = am4core.create("chartdiv", am4charts.PieChart3D);
+      $.ajax({
+                      type : 'POST',
+                      url : '/overview'
+                  })
+                  .done(function(data) {
+  
+                     // Themes begin
+                     am4core.useTheme(am4themes_animated);
+                      // Themes end
+                     chart.data= data.poi_name
+                      //console.log(chart.data);
+                      chart1.data = data.lang
+                      chart2.data = data.country
+                      chart3.data = data.sentiment
+                      chart4.data = data.Topic
+                      
+                      // Add data
+                      chart4.data.forEach(element => {
+                        element.color =chart4.colors.next()
+                      });
+                      console.log(chart4.data)
+                     
+                     chart5.data = data.covid
+                     chart6.data = data.covid_country
+                     
+                    // Increase contrast by taking evey second color
+                      chart7.colors.step = 6;
+                      chart8.colors.step = 6;
+                      chart9.colors.step = 6;
+                      covid_USA=[40126,35177,34111,34078,40795]
+                      covid_India=[94372,83809,90123,97894,93337]
+                      covid_Italy=[1008,1229,1452,1583,1907]
+                    // Add data
+                    chart7.data = data.covid_date;
+            chart8.data = data.covid_date;
+            chart9.data = data.covid_date;
+                      // Create axes
+                      var dateAxis = chart7.xAxes.push(new am4charts.DateAxis());
+                      dateAxis.renderer.minGridDistance = 50;
+  
+                      // Create series
+                      function createAxisAndSeries(field, name, opposite, bullet) {
+                        var valueAxis = chart7.yAxes.push(new am4charts.ValueAxis());
+                        if(chart7.yAxes.indexOf(valueAxis) != 0){
+                          valueAxis.syncWithAxis = chart7.yAxes.getIndex(0);
+                        }
+                        
+                        var series = chart7.series.push(new am4charts.LineSeries());
+                        series.dataFields.valueY = field;
+                        series.dataFields.dateX = "date";
+                        series.strokeWidth = 2;
+                        series.yAxis = valueAxis;
+                        series.name = name;
+                        series.tooltipText = "{name}: [bold]{valueY}[/]";
+                        series.tensionX = 0.8;
+                        series.showOnInit = true;
+                        
+                        var interfaceColors = new am4core.InterfaceColorSet();
+                        
+                        switch(bullet) {
+                          case "triangle":
+                            var bullet = series.bullets.push(new am4charts.Bullet());
+                            bullet.width = 12;
+                            bullet.height = 12;
+                            bullet.horizontalCenter = "middle";
+                            bullet.verticalCenter = "middle";
+                            
+                            var triangle = bullet.createChild(am4core.Triangle);
+                            triangle.stroke = interfaceColors.getFor("background");
+                            triangle.strokeWidth = 2;
+                            triangle.direction = "top";
+                            triangle.width = 12;
+                            triangle.height = 12;
+                            break;
+                          case "rectangle":
+                            var bullet = series.bullets.push(new am4charts.Bullet());
+                            bullet.width = 10;
+                            bullet.height = 10;
+                            bullet.horizontalCenter = "middle";
+                            bullet.verticalCenter = "middle";
+                            
+                            var rectangle = bullet.createChild(am4core.Rectangle);
+                            rectangle.stroke = interfaceColors.getFor("background");
+                            rectangle.strokeWidth = 2;
+                            rectangle.width = 10;
+                            rectangle.height = 10;
+                            break;
+                          default:
+                            var bullet = series.bullets.push(new am4charts.CircleBullet());
+                            bullet.circle.stroke = interfaceColors.getFor("background");
+                            bullet.circle.strokeWidth = 2;
+                            break;
+                        }
+                        
+                        valueAxis.renderer.line.strokeOpacity = 1;
+                        valueAxis.renderer.line.strokeWidth = 2;
+                        valueAxis.renderer.line.stroke = series.stroke;
+                        valueAxis.renderer.labels.template.fill = series.stroke;
+                        valueAxis.renderer.opposite = opposite;
+                      }
+  
+  
+  
+  
+                      chart7.data.forEach((element,idx) =>{
+                       element.date =new Date(element.date)
+                       element.India= covid_India[idx]
+  
+                      })
+  
+                      poi_USA =['USA','joebiden','kamalaharris','realdonaldtrump','cdcgov']
+                      poi_India=['India','jagrannews','hindinews18','rahulgandhi','narendramodi','pibhindi','piyushgoyal','navbharattimes','mib_hindi']
+                      poi_Italy =['Italy','matteosalvinimi','berlusconi','giorgiameloni','matteorenzi','cottarellicpi']
+                      
+                      for (var i=0;i<poi_India.length;i++){
+                      createAxisAndSeries(poi_India[i], poi_India[i], false, "circle");
+                    }
+                    
+                    
+                        // Add legend
+                      chart7.legend = new am4charts.Legend();
+  
+                      // Add cursor
+                      chart7.cursor = new am4charts.XYCursor();
+            
+            
+            
+            var dateAxis1 = chart8.xAxes.push(new am4charts.DateAxis());
+                      dateAxis1.renderer.minGridDistance = 50;
+  
+                      // Create series
+                      function createAxisAndSeries1(field, name, opposite, bullet) {
+                        var valueAxis = chart8.yAxes.push(new am4charts.ValueAxis());
+                        if(chart8.yAxes.indexOf(valueAxis) != 0){
+                          valueAxis.syncWithAxis = chart8.yAxes.getIndex(0);
+                        }
+                        
+                        var series = chart8.series.push(new am4charts.LineSeries());
+                        series.dataFields.valueY = field;
+                        series.dataFields.dateX = "date";
+                        series.strokeWidth = 2;
+                        series.yAxis = valueAxis;
+                        series.name = name;
+                        series.tooltipText = "{name}: [bold]{valueY}[/]";
+                        series.tensionX = 0.8;
+                        series.showOnInit = true;
+                        
+                        var interfaceColors = new am4core.InterfaceColorSet();
+                        
+                        switch(bullet) {
+                          case "triangle":
+                            var bullet = series.bullets.push(new am4charts.Bullet());
+                            bullet.width = 12;
+                            bullet.height = 12;
+                            bullet.horizontalCenter = "middle";
+                            bullet.verticalCenter = "middle";
+                            
+                            var triangle = bullet.createChild(am4core.Triangle);
+                            triangle.stroke = interfaceColors.getFor("background");
+                            triangle.strokeWidth = 2;
+                            triangle.direction = "top";
+                            triangle.width = 12;
+                            triangle.height = 12;
+                            break;
+                          case "rectangle":
+                            var bullet = series.bullets.push(new am4charts.Bullet());
+                            bullet.width = 10;
+                            bullet.height = 10;
+                            bullet.horizontalCenter = "middle";
+                            bullet.verticalCenter = "middle";
+                            
+                            var rectangle = bullet.createChild(am4core.Rectangle);
+                            rectangle.stroke = interfaceColors.getFor("background");
+                            rectangle.strokeWidth = 2;
+                            rectangle.width = 10;
+                            rectangle.height = 10;
+                            break;
+                          default:
+                            var bullet = series.bullets.push(new am4charts.CircleBullet());
+                            bullet.circle.stroke = interfaceColors.getFor("background");
+                            bullet.circle.strokeWidth = 2;
+                            break;
+                        }
+                        
+                        valueAxis.renderer.line.strokeOpacity = 1;
+                        valueAxis.renderer.line.strokeWidth = 2;
+                        valueAxis.renderer.line.stroke = series.stroke;
+                        valueAxis.renderer.labels.template.fill = series.stroke;
+                        valueAxis.renderer.opposite = opposite;
+                      }
+  
+  
+  
+  
+                      chart8.data.forEach((element,idx) =>{
+                       element.date =new Date(element.date)
+                        element.USA = covid_USA[idx]
+                      })
+          for (var j=0;j<poi_USA.length;j++){
+                      createAxisAndSeries1(poi_USA[j], poi_USA[j], false, "circle");
+                    }
+            chart8.legend = new am4charts.Legend();
+  
+                      // Add cursor
+                      chart8.cursor = new am4charts.XYCursor();
+            
+            var dateAxis2 = chart9.xAxes.push(new am4charts.DateAxis());
+                      dateAxis2.renderer.minGridDistance = 50;
+  
+                      // Create series
+                      function createAxisAndSeries2(field, name, opposite, bullet) {
+                        var valueAxis = chart9.yAxes.push(new am4charts.ValueAxis());
+                        if(chart9.yAxes.indexOf(valueAxis) != 0){
+                          valueAxis.syncWithAxis = chart9.yAxes.getIndex(0);
+                        }
+                        
+                        var series = chart9.series.push(new am4charts.LineSeries());
+                        series.dataFields.valueY = field;
+                        series.dataFields.dateX = "date";
+                        series.strokeWidth = 2;
+                        series.yAxis = valueAxis;
+                        series.name = name;
+                        series.tooltipText = "{name}: [bold]{valueY}[/]";
+                        series.tensionX = 0.8;
+                        series.showOnInit = true;
+                        
+                        var interfaceColors = new am4core.InterfaceColorSet();
+                        
+                        switch(bullet) {
+                          case "triangle":
+                            var bullet = series.bullets.push(new am4charts.Bullet());
+                            bullet.width = 12;
+                            bullet.height = 12;
+                            bullet.horizontalCenter = "middle";
+                            bullet.verticalCenter = "middle";
+                            
+                            var triangle = bullet.createChild(am4core.Triangle);
+                            triangle.stroke = interfaceColors.getFor("background");
+                            triangle.strokeWidth = 2;
+                            triangle.direction = "top";
+                            triangle.width = 12;
+                            triangle.height = 12;
+                            break;
+                          case "rectangle":
+                            var bullet = series.bullets.push(new am4charts.Bullet());
+                            bullet.width = 10;
+                            bullet.height = 10;
+                            bullet.horizontalCenter = "middle";
+                            bullet.verticalCenter = "middle";
+                            
+                            var rectangle = bullet.createChild(am4core.Rectangle);
+                            rectangle.stroke = interfaceColors.getFor("background");
+                            rectangle.strokeWidth = 2;
+                            rectangle.width = 10;
+                            rectangle.height = 10;
+                            break;
+                          default:
+                            var bullet = series.bullets.push(new am4charts.CircleBullet());
+                            bullet.circle.stroke = interfaceColors.getFor("background");
+                            bullet.circle.strokeWidth = 2;
+                            break;
+                        }
+                        
+                        valueAxis.renderer.line.strokeOpacity = 1;
+                        valueAxis.renderer.line.strokeWidth = 2;
+                        valueAxis.renderer.line.stroke = series.stroke;
+                        valueAxis.renderer.labels.template.fill = series.stroke;
+                        valueAxis.renderer.opposite = opposite;
+                      }
+  
+  
+  
+  
+                      chart9.data.forEach((element,idx) =>{
+                       element.date =new Date(element.date)
+                       element.Italy = covid_Italy[idx]
+  
+                      })
+            for (var k=0;k<poi_Italy.length;k++){
+                      createAxisAndSeries2(poi_Italy[k], poi_Italy[k], false, "circle");
+                    }
+            chart9.legend = new am4charts.Legend();
+  
+                      // Add cursor
+                      chart9.cursor = new am4charts.XYCursor();
+  
+                      // Create axes
+                      let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+                      categoryAxis.dataFields.category = "label";
+                      categoryAxis.renderer.labels.template.rotation = 270;
+                      categoryAxis.renderer.labels.template.hideOversized = false;
+                      categoryAxis.renderer.minGridDistance = 20;
+                      categoryAxis.renderer.labels.template.horizontalCenter = "right";
+                      categoryAxis.renderer.labels.template.verticalCenter = "middle";
+                      categoryAxis.tooltip.label.rotation = 270;
+                      categoryAxis.tooltip.label.horizontalCenter = "right";
+                      categoryAxis.tooltip.label.verticalCenter = "middle";
+                      
+                      let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+                      valueAxis.title.text = "Tweets";
+                      valueAxis.title.fontWeight = "bold";
+                      
+                      // Create series
+                      var series = chart.series.push(new am4charts.ColumnSeries3D());
+                      series.dataFields.valueY = "values";
+                      series.dataFields.categoryX = "label";
+                      series.name = "values";
+                      series.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+                      series.columns.template.fillOpacity = .8;
+                      
+                      var columnTemplate = series.columns.template;
+                      columnTemplate.strokeWidth = 2;
+                      columnTemplate.strokeOpacity = 1;
+                      columnTemplate.stroke = am4core.color("#FFFFFF");
+                      
+                      columnTemplate.adapter.add("fill", function(fill, target) {
+                        return chart.colors.getIndex(target.dataItem.index);
+                      })
+                      
+                      columnTemplate.adapter.add("stroke", function(stroke, target) {
+                        return chart.colors.getIndex(target.dataItem.index);
+                      })
+                      
+                      chart.cursor = new am4charts.XYCursor();
+                      chart.cursor.lineX.strokeOpacity = 0;
+                      chart.cursor.lineY.strokeOpacity = 0;
+  
+  
+                      chart1.innerRadius = am4core.percent(50);
+  
+                      // Add and configure Series
+                      var pieSeries = chart1.series.push(new am4charts.PieSeries());
+                      pieSeries.dataFields.value = "values";
+                      pieSeries.dataFields.category = "label";
+                      pieSeries.slices.template.stroke = am4core.color("#fff");
+                      pieSeries.slices.template.strokeWidth = 2;
+                      pieSeries.slices.template.strokeOpacity = 1;
+  
+                      // This creates initial animation
+                      pieSeries.hiddenState.properties.opacity = 1;
+                      pieSeries.hiddenState.properties.endAngle = -90;
+                      pieSeries.hiddenState.properties.startAngle = -90;
+  
+                      chart2.innerRadius = am4core.percent(50);
+  
+                      // Add and configure Series
+                      var pieSeries = chart2.series.push(new am4charts.PieSeries());
+                      pieSeries.dataFields.value = "values";
+                      pieSeries.dataFields.category = "label";
+                      pieSeries.slices.template.stroke = am4core.color("#fff");
+                      pieSeries.slices.template.strokeWidth = 2;
+                      pieSeries.slices.template.strokeOpacity = 1;
+  
+                      // This creates initial animation
+                      pieSeries.hiddenState.properties.opacity = 1;
+                      pieSeries.hiddenState.properties.endAngle = -90;
+                      pieSeries.hiddenState.properties.startAngle = -90;
+  
+                      var pieSeries = chart3.series.push(new am4charts.PieSeries());
+                      pieSeries.dataFields.value = "values";
+                      pieSeries.dataFields.category = "label";
+                      pieSeries.innerRadius = am4core.percent(50);
+                      pieSeries.ticks.template.disabled = true;
+                      pieSeries.labels.template.disabled = true;
+                      var colorSet = new am4core.ColorSet();
+                      colorSet.list = ["#fbb02d","#27a300","#ff0000"].map(function(color) {
+    return new am4core.color(color);
+  });
+                      pieSeries.colors = colorSet;
+  
+                      var rgm = new am4core.RadialGradientModifier();
+                      rgm.brightnesses.push(-0.8, -0.8, -0.5, 0, - 0.5);
+                      pieSeries.slices.template.fillModifier = rgm;
+                      pieSeries.slices.template.strokeModifier = rgm;
+                      pieSeries.slices.template.strokeOpacity = 0.4;
+                      pieSeries.slices.template.strokeWidth = 0;
+  
+                      chart3.legend = new am4charts.Legend();
+                      <!-- chart3.legend.position = "right";  -->
+  
+                      var cA = chart4.yAxes.push(new am4charts.CategoryAxis());
+                      cA.dataFields.category = "label";
+                      cA.numberFormatter.numberFormat = "#";
+                      cA.renderer.inversed = true;
+  
+                      var  vA = chart4.xAxes.push(new am4charts.ValueAxis()); 
+  
+                      // Create series
+                      var series1 = chart4.series.push(new am4charts.ColumnSeries3D());
+                      series1.dataFields.valueX = "values";
+                      series1.dataFields.categoryY = "label";
+                      series1.name = "Income";
+                      series1.columns.template.propertyFields.fill = "color";
+                      series1.columns.template.tooltipText = "{valueX}";
+                      series1.columns.template.column3D.stroke = am4core.color("#fff");
+                      series1.columns.template.column3D.strokeOpacity = 0.2;
+                    // Create axes
+                      var cA1 = chart5.xAxes.push(new am4charts.CategoryAxis());
+                      cA1.dataFields.category = "poi";
+                      cA1.renderer.grid.template.location = 0;
+                      // cA1.renderer.minGridDistance = 30;
+                      cA1.renderer.minGridDistance = 20;
+                      cA1.renderer.labels.template.rotation = 270;
+                      cA1.tooltip.label.rotation = 270;
+  
+                      var vA1 = chart5.yAxes.push(new am4charts.ValueAxis());
+                      vA1.title.text = "Tweets";
+                      vA1.renderer.labels.template.adapter.add("text", function(text) {
+                        return text ;
+                      });
+  
+                      // Create series
+                      var series3 = chart5.series.push(new am4charts.ColumnSeries3D());
+                      series3.dataFields.valueY = "covid";
+                      series3.dataFields.categoryX = "poi";
+                      series3.name = "COVID";
+                      series3.clustered = false;
+                      series3.columns.template.tooltipText = "Tweets {category} (covid): [bold]{valueY}[/]";
+                      series3.columns.template.fillOpacity = 0.9;
+  
+                      var series32 = chart5.series.push(new am4charts.ColumnSeries3D());
+                      series32.dataFields.valueY = "non_covid";
+                      series32.dataFields.categoryX = "poi";
+                      series32.name = "NON_COVID";
+                      series32.clustered = false;
+                      series32.columns.template.tooltipText = "Tweets{category} (non_covid): [bold]{valueY}[/]";
+                      var cA2 = chart6.xAxes.push(new am4charts.CategoryAxis());
+                      cA2.dataFields.category = "country";
+                      cA2.renderer.grid.template.location = 0;
+                      // cA2.renderer.minGridDistance = 30;
+                      cA2.renderer.minGridDistance = 30;
+                      
+  
+                      var vA2 = chart6.yAxes.push(new am4charts.ValueAxis());
+                      vA2.title.text = "Tweets";
+                      vA2.renderer.labels.template.adapter.add("text", function(text) {
+                        return text ;
+                      });
+  
+                      // Create series
+                      var series3 = chart6.series.push(new am4charts.ColumnSeries3D());
+                      series3.dataFields.valueY = "covid";
+                      series3.dataFields.categoryX = "country";
+                      series3.name = "COVID";
+                      series3.clustered = false;
+                      series3.columns.template.tooltipText = "Tweets {category} (covid): [bold]{valueY}[/]";
+                      series3.columns.template.fillOpacity = 0.9;
+  
+                      var series32 = chart6.series.push(new am4charts.ColumnSeries3D());
+                      series32.dataFields.valueY = "non_covid";
+                      series32.dataFields.categoryX = "country";
+                      series32.name = "NON_COVID";
+                      series32.clustered = false;
+                      series32.columns.template.tooltipText = "Tweets{category} (non_covid): [bold]{valueY}[/]";
+  
+  
+                    
+                      
+      
+                  }); // end am4core.ready()
+     });
+  </script>
+  
+  <!-- HTML -->
+  <h1 style="text-align:center" >OVERVIEW</h1>
+  <h2 style="text-align:center" >POI VS Number of Tweets</h2>
+  <div id="chartdiv" class="centerstyle"></div>
+  <br />
+  <h2 style="text-align:center" >Language Based Distribution of Tweets</h2>
+  <div id="chartdiv1" class="centerstyle"></div>
+  <br />
+  <h2 style="text-align:center" >Country Statistics: Country wise number of Tweets</h2>
+  <div id="chartdiv2" class="centerstyle"></div>
+  <br />
+  <h2 style="text-align:center" >Sentiment Analysis</h2>
+  <div id="chartdiv3" class="centerstyle"></div>
+  <br />
+  <h2 style="text-align:center" >Topics Importance</h2>
+  <div id="chartdiv4" class="centerstyle"></div>
+  <br />
+  <h2 style="text-align:center" >POI wise Covid and Non-Covid Tweets</h2>
+  <div id="chartdiv5" class="centerstyle"></div>
+  <br />
+  <h2 style="text-align:center" >Country wise Covid and Non-Covid Tweets</h2>
+  <div id="chartdiv6" class="centerstyle"></div>
+  <br />
+  <h2 style="text-align:center" >Date wise POIs' Covid Tweets in correlation with Covid Cases in India</h2>
+  <div id="chartdiv7" class="centerstyle"></div>
+  <br />
+  <h2 style="text-align:center" >Date wise POIs' Covid Tweets in correlation with Covid Cases in USA</h2>
+  <div id="chartdiv8" class="centerstyle"></div>
+  <br />
+  <h2 style="text-align:center" >Date wise POIs' Covid Tweets in correlation with Covid Cases in Italy</h2>
+  <div id="chartdiv9" class="centerstyle"></div>
+  
+    

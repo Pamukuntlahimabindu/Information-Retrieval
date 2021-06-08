@@ -1,0 +1,465 @@
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!-- <link href = "//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+    rel="stylesheet" id="bootstrap-css"> -->
+    <script src = "//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js">
+    </script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/material.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+    <style>
+      body, html {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+      
+      .container {
+        width: 100%;
+        height: 100%;
+      }
+      
+      .lefttoppane {
+        width: 18%;
+        height: 12%;
+        float: left;
+        background-color: #eef0f2;
+       
+      }
+
+      .middletoppane {
+        width: 62%;
+        height: 12%;
+        float: left;
+        text-align:center;
+        background-color: #eef0f2;
+     }
+
+     .righttoppane {
+       width: 20%;
+       height: 12%;
+       float: right;
+       background-color: #eef0f2;   
+       
+     }
+
+      .leftpane {
+        width: 16%;
+        min-height:100vh;;
+        float: left;
+        background-color: #001871;
+        border-collapse: collapse;
+        border: 3px solid #e5e5e5;
+        padding: 1rem;
+      }
+
+      .middlepane {
+        width: 46%;
+        min-height: 88%;
+        float: left;
+        background-color: #ffffff;
+        border-collapse: collapse;
+        border-radius : 50px;
+        padding: 30px
+      }
+      
+      
+
+      .rightpane {
+        width: 38%;
+        height: 88%;
+        position: relative;
+        float: right;
+        background-color: white;
+      }
+      .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        border-radius:25px;
+        transition: background-color .3s;
+      }
+      .pagination a.active {
+        background-color: white;
+        border-radius:25px;
+        color: white;
+      }
+      .pagination a:hover:not(.active) {background-color: #ddd;}
+      
+      
+
+
+
+    </style>
+    <style>
+      .multiselect {
+        width: 180px;
+      }
+
+      .selectBox {
+        position: relative;
+        size : 1rem;
+      }
+
+      .selectBox select {
+        width: 100%;
+        font-weight: bold;
+        border: 2px solid white;
+        padding: 1rem;
+        border-radius: 25px;
+      }
+
+      .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+      }
+
+      #checkboxes1 {
+        display: none;
+        border: 1px white solid;
+        border-radius:1rem;
+      }
+
+      #checkboxes1 label {
+        display: block;
+        outline: none
+      }
+
+      #checkboxes1 label:hover {
+        background-color: #1e90ff;
+        transform: 1.4x;
+      }
+
+      #checkboxes2 {
+        display: none;
+        border: 1px #dadada solid;
+        outline: none
+      }
+
+      #checkboxes2 label {
+        display: block;
+        outline: none
+      }
+
+      #checkboxes2 label:hover {
+        background-color: #1e90ff;
+        outline: none
+      }
+
+      #checkboxes3 {
+        display: none;
+        border: 1px #dadada solid;
+        outline: none
+      }
+
+      #checkboxes3 label {
+        display: block;
+        outline: none
+      }
+
+      #checkboxes3 label:hover {
+        background-color: #1e90ff;
+      }
+      
+      .style_border{
+      border: 1rem white solid; 
+      border-radius:25px;
+      outline: none
+      
+      }
+      
+      .style_border:focus{
+      border: 1rem white solid; 
+      border-radius:50px;
+      outline: none;
+      transform: 1.1x;
+      }
+      
+      
+      #chartdiv {
+      width: 100%;
+      height: 25rem;
+}
+    </style>
+  </head>
+  <body>
+    <div>
+      <div class="lefttoppane">
+        <!--<input type="text" size="70" id="searchtext" placeholder="Search..">-->
+        <!--&nbsp;&nbsp;&nbsp;
+        <input type="submit" class="btn btn-primary" value="Search" onclick="myFunction(); return false;"/>-->
+      </div>
+      <div class="middletoppane">
+        <br />
+        <input type="text" class="style_border" size="65rem" id="searchtext" placeholder="Search...">
+        &nbsp;&nbsp;&nbsp;
+        <!--<svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>-->
+        <input type="submit" style="font-weight:bold;border-radius:25px;"  class="btn btn-primary" value="&#x1F50D;Search" onclick="myFunction(); return false;"/>
+      </div>
+    <div class="righttoppane">
+      <!--<input type="text" size="70" id="searchtext" placeholder="Search..">-->
+      <!--&nbsp;&nbsp;&nbsp;
+      
+      <input type="submit" class="btn btn-primary" value="Search" onclick="myFunction(); return false;"/>-->
+      <a href="/overview" style="font-weight:bold;border-radius:25px;margin-top: 25px;;margin-bottom: auto;"class="btn btn-primary">OverView</a>
+    </div>
+      <div class="leftpane">
+        <h1 style="color : white;font-size:2.5rem;text-align:left"> <b> Faceted Search </b> </h1>
+         <br />
+        <div class="multiselect" style="size:2rem">
+          <div class="selectBox" onclick="showCheckboxes('checkboxes1')">
+              <select>
+                <option>POI NAME</option>
+              </select>
+              <div class="overSelect"></div>
+          </div>
+           <div id="checkboxes1">
+              <label for="one" style="color:white">
+                <input type="checkbox" id="kamalaharris" onchange = "myFunction()"/>Kamala Harris</label>
+              <label for="two" style="color:white">
+                <input type="checkbox" id="joebiden" onchange = "myFunction()"/>Joe Biden</label>
+              <label for="three" style="color:white">
+                <input type="checkbox" id="realdonaldtrump" onchange = "myFunction()"/>Donald Trump</label>
+                <label for="five" style="color:white">
+                <input type="checkbox" id="narendramodi" onchange = "myFunction()"/>Narendra Modi</label>
+              <label for="four" style="color:white">
+                <input type="checkbox" id="rahulgandhi" onchange = "myFunction()"/>Rahul Gandhi</label>
+              <label for="six" style="color:white">
+                <input type="checkbox" id="piyushgoyal" onchange = "myFunction()"/>Piyush Goyal</label>
+              <label for="seven" style="color:white">
+                <input type="checkbox" id="matteosalvinimi" onchange = "myFunction()"/>Matteo Salvini</label>
+              <label for="eight" style="color:white">
+                <input type="checkbox" id="berlusconi" onchange = "myFunction()"/>Silvio Berlusconi</label>
+                <label for="nine" style="color:white">
+                <input type="checkbox" id="giorgiameloni" onchange = "myFunction()"/>Giorgia Meloni</label>
+                <label for="ten" style="color:white">
+                <input type="checkbox" id="corriere" onchange = "myFunction()"/>Corriere della Sera</label>
+                <label for="eleven" style="color:white">
+                <input type="checkbox" id="matteorenzi" onchange = "myFunction()"/>Matteo Renzi</label>
+                <label for="twelve" style="color:white">
+                <input type="checkbox" id="cottarellicpi" onchange = "myFunction()"/>Carlo Cottarelli</label>
+                
+        </div>
+        </div>
+        <br />
+        <div class="multiselect">
+          <div class="selectBox" onclick="showCheckboxes('checkboxes2')">
+              <select>
+                <option style="text-align : center;">LANGUAGE</option>
+              </select>
+              <div class="overSelect"></div>
+          </div>
+          <div id="checkboxes2">
+              <label for="one" style="color:white">
+                <input type="checkbox" id="english" onchange = "myFunction()"/>English</label>
+              <label for="two" style="color:white">
+                <input type="checkbox" id="hindi" onchange = "myFunction()"/>Hindi</label>
+              <label for="three" style="color:white">
+                <input type="checkbox" id="italian" onchange = "myFunction()"/>Italian</label>
+          </div>
+        </div>
+        <br />
+        <div class="multiselect">
+          <div class="selectBox" onclick="showCheckboxes('checkboxes3')">
+              <select>
+                <option>COUNTRY</option>
+              </select>
+              <div class="overSelect"></div>
+          </div>
+          <div id="checkboxes3">
+              <label for="one" style="color:white">
+                <input type="checkbox" id="india" onchange = "myFunction()"/>India</label>
+              <label for="two" style="color:white">
+                <input type="checkbox" id="usa" onchange = "myFunction()"/>USA</label>
+              <label for="three" style="color:white">
+                <input type="checkbox" id="italy" onchange = "myFunction()"/>Italy</label>
+          </div>
+        </div>
+      </div>
+      <script>
+        var expanded = false;
+
+        function showCheckboxes(checkbox) {
+          var checkboxes = document.getElementById(checkbox);
+          if (!expanded) {
+            checkboxes.style.display = "block";
+            expanded = true;
+          } else {
+            checkboxes.style.display = "none";
+            expanded = false;
+          }
+        }
+      </script>
+      <div class="middlepane">
+        
+        <br>
+        <div style="overflow-y: scroll; color: black; height:650px;">
+          <p id="demo"></p>
+        </div>
+      </div>
+      <div class="rightpane">
+        <h1 style="text-align : center ;color:#001871;font-size:3rem;font-family:sans-serif"> Analytics </h1>
+        <div style="padding:10px;text-align : center;margin-left:auto;margin-right:auto;">
+        <select id="analysis"  style="padding:10px;margin-left:auto;margin-right:auto; border-radius:25px;text-align : center; background-color:#001871; color :white; font-weight:bold " onchange="myFunction()">
+          <option value="lang">LANGUAGE</option>
+          <option value="Sentiment">SENTIMENT</option>
+          <option value="Topic">TOPIC</option>
+          <option value="country">COUNTRY</option>
+          <option value="poi_name">POI</option>
+          <option value="covid">COVID</option>
+          <!--
+          <option value="hashtags">HASHTAGS</option>
+          <option value="mentions">MENTIONS</option>
+          <option value="tweet_date">DATE</option>
+          -->
+        </select>
+        </div>
+        <br />
+        <br />
+        <div id="chartdiv"></div>
+        <!--<div id="graph1"></div>-->
+      </div>
+      <script>
+        function myFunction() {
+          var analysisValue = document.getElementById("analysis").options[document.getElementById("analysis").selectedIndex].value;
+          newDetails = {
+                          searchtext: document.getElementById('searchtext').value,
+                          kamalaharris : document.getElementById('kamalaharris').checked,
+                          joebiden: document.getElementById('joebiden').checked,
+                          realdonaldtrump: document.getElementById('realdonaldtrump').checked,
+                          narendramodi: document.getElementById('narendramodi').checked,
+                          rahulgandhi : document.getElementById('rahulgandhi').checked,
+                          piyushgoyal: document.getElementById('piyushgoyal').checked,
+                          matteosalvinimi: document.getElementById('matteosalvinimi').checked,
+                          berlusconi: document.getElementById('berlusconi').checked,
+                          giorgiameloni: document.getElementById('giorgiameloni').checked,
+                          corriere : document.getElementById('corriere').checked,
+                          matteorenzi: document.getElementById('matteorenzi').checked,
+                          cottarellicpi: document.getElementById('cottarellicpi').checked,
+                          english: document.getElementById('english').checked,
+                          hindi: document.getElementById('hindi').checked,
+                          italian: document.getElementById('italian').checked,
+                          India: document.getElementById('india').checked,
+                          USA: document.getElementById('usa').checked,
+                          Italy: document.getElementById('italy').checked,
+                          analysis: analysisValue
+                        };
+          $.ajax({
+                    data : newDetails,
+                    type : 'POST',
+                    url : '/process'
+                })
+                .done(function(data) {
+                  var str = "";
+                  for (var i in data.tweets) {
+                    console.log(data.tweets[i]);
+                    str += "<img src = '" + data.tweets[i].image_url +"'alt='Trulli'; width='35' height='22'>";
+                    str += " " + data.tweets[i].username;
+                    if (data.tweets[i].verified){
+                    str += "<img src='https://i.kym-cdn.com/entries/icons/original/000/029/103/cover.jpg' width='50',height='50'/>";
+                    }
+                    str += "<p>" + data.tweets[i].tweet_text + "</p>";
+                    var link = "https://twitter.com/anyuser/status/" + data.tweets[i].tweet_id;
+                    str += "<p><a href='"+link+"'"+"target='_blank'>";
+                    str += link;
+                    str += "</a></p>";
+                    //var temp = "'"+ data.tweets[i].articles + "'";
+                    //var temp = 'https://www.indiatoday.in/education-today/news/story/pm-narendra-modi-addresses-iit-delhi-s-51st-convocation-1738796-2020-11-07';
+                    //var temp1 = "'" + "demo" + i + "'";
+                    if(data.tweets[i].articles[0] !="none" ) {
+                      var link1 = data.tweets[i].articles[0];
+                      var link2 = data.tweets[i].articles[1];
+                      str += "<b> Related Articles</b>"
+                      str += "<p><a href='"+link1+"'"+"target='_blank'>";
+                      str += link1;
+                      str += "</a></p>";
+                      str += "<p><a href='"+link2+"'"+"target='_blank'>";
+                      str += link2;
+                      str += "</a></p>";
+                    }
+                    str += " <b>Sentiment: </b>"
+                    if(data.tweets[i].sentiment == 'positive'){
+                    str +="<img src='https://www.pinclipart.com/picdir/big/158-1582814_green-flag-icon-free-icons-download-green-flag.png' width='15',height='15'/>"
+                    }
+                    else if(data.tweets[i].sentiment == 'negative'){
+                    str +="<img src='https://mpng.subpng.com/20180422/ghq/kisspng-red-flag-computer-icons-clip-art-red-flag-5add3bd03dae92.9858195315244482082527.jpg' width='20',height='20'/>"
+                    }
+                    else if(data.tweets[i].sentiment == 'neutral'){
+                    str +="<img src='https://www.clipartkey.com/mpngs/m/195-1958242_transparent-american-flag-icon-png-small-yellow-flag.png' width='25',height='25'/>"
+                    }
+
+                    str +='<p></p>'
+                    str += " <b>Influence score: </b>"+data.tweets[i].influence_score.toFixed(2)
+
+                    str += "<hr>";
+                  }
+                  document.getElementById("demo").innerHTML = str;
+                  console.log(data.count);
+                  let resp = data.count;
+                  if(analysisValue == 'hashtags' || analysisValue == 'mentions' ||
+                    analysisValue == 'tweet_date') {
+                    var trace1 = {
+                                    x: resp.labels,
+                                    y: resp.values,
+                                    type: 'scatter'
+                                  };
+                                  var layout = {
+                                                xaxis : {
+                                                          tickangle: 60
+                                                        }
+                                              };
+                                  var data = [trace1];
+
+                                  Plotly.newPlot('chartdiv', data, layout);
+                  }
+                  else {
+                    am4core.ready(function() {
+
+                        // Themes begin
+                        am4core.useTheme(am4themes_material);
+                        am4core.useTheme(am4themes_animated);
+                        // Themes end
+                        
+                        var chart = am4core.create("chartdiv", am4charts.PieChart3D);
+                        chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+                        var colorSet = new am4core.ColorSet();
+                        
+                        
+                        for(var i = 0; i < resp.values.length; i++) {
+                            var tempVal = {key: (resp.labels[i] == "none")? "general public":resp.labels[i],
+                                            value: resp.values[i]}
+                            chart.data.push(tempVal);
+                        }
+                        var series = chart.series.push(new am4charts.PieSeries3D());
+                        series.dataFields.value = "value";
+                        series.dataFields.category = "key";
+                        colorSet.list = ["#03a9f4","#3f51b5", "#673ab7","#e91e63", "#9c27b0","00bcd4","#eac7bc", "#F44336","#d36000","#8c002d", "#8E24AA", "#ffc0be"].map(function(color) {
+  return new am4core.color(color);
+});
+series.colors = colorSet;
+                    
+                    });
+                }
+});
+                event.preventDefault();
+        }
+      </script>
+    </div>
+  </body>
+</html>

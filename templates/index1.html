@@ -1,0 +1,344 @@
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!-- <link href = "//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+    rel="stylesheet" id="bootstrap-css"> -->
+    <script src = "//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js">
+    </script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+      body, html {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+
+      .container {
+        width: 100%;
+        height: 100%;
+      }
+
+      .leftpane {
+        width: 15%;
+        height: 100%;
+        float: left;
+        background-color: white;
+        border-collapse: collapse;
+        text-decoration: underline solid rgb(68, 68, 68);
+        border: 3px solid SteelBlue;
+        padding: 20px
+      }
+
+      .middlepane {
+        width: 50%;
+        height: 100%;
+        float: left;
+        background-color: white;
+        border-collapse: collapse;
+        border: 3px solid SteelBlue;
+        padding: 30px
+      }
+
+      .rightpane {
+        width: 35%;
+        height: 100%;
+        position: relative;
+        float: right;
+        background-color: white;
+        border-collapse: collapse;
+        text-decoration: underline solid rgb(68, 68, 68);
+        border: 3px solid SteelBlue;
+        padding: 3px
+      }
+      .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+      }
+      .pagination a.active {
+        background-color: dodgerblue;
+        color: white;
+      }
+      .pagination a:hover:not(.active) {background-color: #ddd;}
+    </style>
+    <style>
+      .multiselect {
+        width: 150px;
+      }
+
+      .selectBox {
+        position: relative;
+      }
+
+      .selectBox select {
+        width: 100%;
+        font-weight: bold;
+      }
+
+      .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+      }
+
+      #checkboxes1 {
+        display: none;
+        border: 1px #dadada solid;
+      }
+
+      #checkboxes1 label {
+        display: block;
+      }
+
+      #checkboxes1 label:hover {
+        background-color: #1e90ff;
+      }
+
+      #checkboxes2 {
+        display: none;
+        border: 1px #dadada solid;
+      }
+
+      #checkboxes2 label {
+        display: block;
+      }
+
+      #checkboxes2 label:hover {
+        background-color: #1e90ff;
+      }
+
+      #checkboxes3 {
+        display: none;
+        border: 1px #dadada solid;
+      }
+
+      #checkboxes3 label {
+        display: block;
+      }
+
+      #checkboxes3 label:hover {
+        background-color: #1e90ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="leftpane">
+        <h1> FILTERS </h1>
+        <div class="multiselect">
+          <div class="selectBox" onclick="showCheckboxes('checkboxes1')">
+              <select>
+                <option>POI NAME</option>
+              </select>
+              <div class="overSelect"></div>
+          </div>
+          <div id="checkboxes1">
+              <label for="one">
+                <input type="checkbox" id="kamalaharris" onchange = "myFunction()"/>Kamala Harris</label>
+              <label for="two">
+                <input type="checkbox" id="ewarren" onchange = "myFunction()"/>Ewarren</label>
+              <label for="three">
+                <input type="checkbox" id="betoorourke" onchange = "myFunction()"/>BetoORourke</label>
+              <label for="four">
+                <input type="checkbox" id="joebiden" onchange = "myFunction()"/>JoeBiden</label>
+              <label for="five">
+                <input type="checkbox" id="corybooker" onchange = "myFunction()"/>CoryBooker</label>
+              <label for="six">
+                <input type="checkbox" id="amitshah" onchange = "myFunction()"/>Amit Shah</label>
+              <label for="seven">
+                <input type="checkbox" id="rajnathsingh" onchange = "myFunction()"/>RajNath Singh</label>
+              <label for="eight">
+                <input type="checkbox" id="myogiadityanath" onchange = "myFunction()"/>Yogi Adityanath</label>
+              <label for="nine">
+                <input type="checkbox" id="arvindkejriwal" onchange = "myFunction()"/>Arvind Kejriwal</label>
+              <label for="ten">
+                <input type="checkbox" id="sachinpilot" onchange = "myFunction()"/>Sachin Pilot</label>
+              <label for="eleven">
+                <input type="checkbox" id="jairbolsonaro" onchange = "myFunction()"/>Jair Bolsonaro</label>
+              <label for="twelve">
+                <input type="checkbox" id="cirogomes" onchange = "myFunction()"/>Ciro Gomes</label>
+              <label for="thirteen">
+                <input type="checkbox" id="carlazambelli17" onchange = "myFunction()"/>Carla Zambelli</label>
+              <label for="fourteen">
+                <input type="checkbox" id="onyxlorenzoni" onchange = "myFunction()"/>Onyx Lorenzoni</label>
+              <label for="fifteen">
+                <input type="checkbox" id="jdoriajr" onchange = "myFunction()"/>João Doria</label>
+          </div>
+        </div>
+        <div class="multiselect">
+          <div class="selectBox" onclick="showCheckboxes('checkboxes2')">
+              <select>
+                <option>LANGUAGE</option>
+              </select>
+              <div class="overSelect"></div>
+          </div>
+          <div id="checkboxes2">
+              <label for="one">
+                <input type="checkbox" id="english" onchange = "myFunction()"/>English</label>
+              <label for="two">
+                <input type="checkbox" id="hindi" onchange = "myFunction()"/>Hindi</label>
+              <label for="three">
+                <input type="checkbox" id="portuguese" onchange = "myFunction()"/>Portuguese</label>
+          </div>
+        </div>
+        <div class="multiselect">
+          <div class="selectBox" onclick="showCheckboxes('checkboxes3')">
+              <select>
+                <option>COUNTRY</option>
+              </select>
+              <div class="overSelect"></div>
+          </div>
+          <div id="checkboxes3">
+              <label for="one">
+                <input type="checkbox" id="india" onchange = "myFunction()"/>India</label>
+              <label for="two">
+                <input type="checkbox" id="usa" onchange = "myFunction()"/>USA</label>
+              <label for="three">
+                <input type="checkbox" id="brazil" onchange = "myFunction()"/>Brazil</label>
+          </div>
+        </div>
+      </div>
+      <script>
+        var expanded = false;
+
+        function showCheckboxes(checkbox) {
+          var checkboxes = document.getElementById(checkbox);
+          if (!expanded) {
+            checkboxes.style.display = "block";
+            expanded = true;
+          } else {
+            checkboxes.style.display = "none";
+            expanded = false;
+          }
+        }
+      </script>
+      <div class="middlepane">
+        <input type="text" size="70" id="searchtext" placeholder="Search..">
+        &nbsp;&nbsp;&nbsp;
+        <input type="submit" class="btn btn-primary" value="Search" onclick="myFunction(); return false;"/>
+        <br>
+        <br>
+        <div style="overflow-y: scroll; height:670px;">
+          <p id="demo"></p>
+        </div>
+      </div>
+      <div class="rightpane">
+        <h1> VISUALIZATIONS </h1>
+        <select id="analysis" onchange="myFunction()">
+          <option value="tweet_lang">Language</option>
+          <option value="Sentiment">Sentiment</option>
+          
+          <option value="Topic">Topic</option>
+          <option value="country">Country</option>
+          <option value="poi_name">POI</option>
+          <option value="hashtags">Hashtags</option>
+          <option value="mentions">Mentions</option>
+          <option value="tweet_date">Date</option>
+        </select>
+        <div id="graph1"></div>
+      </div>
+      <script>
+        function myFunction() {
+          var analysisValue = document.getElementById("analysis").options[document.getElementById("analysis").selectedIndex].value;
+          newDetails = {
+                          searchtext: document.getElementById('searchtext').value,
+                          kamalaharris : document.getElementById('kamalaharris').checked,
+                          ewarren: document.getElementById('ewarren').checked,
+                          betoorourke: document.getElementById('betoorourke').checked,
+                          joebiden: document.getElementById('joebiden').checked,
+                          corybooker: document.getElementById('corybooker').checked,
+                          arvindkejriwal : document.getElementById('arvindkejriwal').checked,
+                          amitshah: document.getElementById('amitshah').checked,
+                          rajnathsingh: document.getElementById('rajnathsingh').checked,
+                          myogiadityanath: document.getElementById('myogiadityanath').checked,
+                          sachinpilot: document.getElementById('sachinpilot').checked,
+                          jairbolsonaro : document.getElementById('jairbolsonaro').checked,
+                          cirogomes: document.getElementById('cirogomes').checked,
+                          carlazambelli17: document.getElementById('carlazambelli17').checked,
+                          onyxlorenzoni: document.getElementById('onyxlorenzoni').checked,
+                          jdoriajr: document.getElementById('jdoriajr').checked,
+                          english: document.getElementById('english').checked,
+                          hindi: document.getElementById('hindi').checked,
+                          portuguese: document.getElementById('portuguese').checked,
+                          india: document.getElementById('india').checked,
+                          usa: document.getElementById('usa').checked,
+                          brazil: document.getElementById('brazil').checked,
+                          analysis: analysisValue
+                        };
+          $.ajax({
+                    data : newDetails,
+                    type : 'POST',
+                    url : '/process'
+                })
+                .done(function(data) {
+                  var str = "";
+                  for (var i in data.tweets) {
+                    console.log(data.tweets[i]);
+                    str += "<img src = '" + data.tweets[i].image_url +"'alt='Trulli' width='35' height='22'>";
+                    str += " " + data.tweets[i].username;
+                    str += "<p>" + data.tweets[i].tweet_text + "</p>";
+                    var link = "https://twitter.com/anyuser/status/" + data.tweets[i].tweet_id;
+                    str += "<p><a href='"+link+"'"+"target='_blank'>";
+                    str += link;
+                    str += "</a></p>";
+                    //var temp = "'"+ data.tweets[i].articles + "'";
+                    var temp1 = "'" + "demo" + i + "'";
+                    // if(data.tweets[i].articles.length != 0) {
+                    //   str += '<input type="submit" class="btn btn-primary" value="Search" onclick = "{ document.getElementById(' + temp1 + ').innerHTML = '  + temp + '};"/>'
+                    //   str += '<p id="' + "demo" + i +  '"></p>'
+                    // }
+                    str += "<hr>";
+                  }
+                  document.getElementById("demo").innerHTML = str;
+                  console.log(data.count);
+                  let resp = data.count;
+                  if(analysisValue == 'hashtags' || analysisValue == 'mentions' ||
+                    analysisValue == 'tweet_date') {
+                    var trace1 = {
+                                    x: resp.labels,
+                                    y: resp.values,
+                                    type: 'scatter'
+                                  };
+                                  var layout = {
+                                                xaxis : {
+                                                          tickangle: 60
+                                                        }
+                                              };
+                                  var data = [trace1];
+
+                                  Plotly.newPlot('graph1', data, layout);
+                  }
+                  else {
+                    var input = [
+                                  {
+                                    values: resp.values,
+                                    labels: resp.labels,
+                                    type: resp.type
+                                  }
+                                ];
+                    var layout = {
+                      height: 400,
+                      width: 500
+                    };
+                    Plotly.newPlot('graph1' ,input, layout);
+                  }
+                });
+                event.preventDefault();
+        }
+      </script>
+    </div>
+  </body>
+</html>
